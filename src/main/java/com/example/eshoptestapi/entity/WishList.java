@@ -55,4 +55,5 @@ public class WishList {
     public void setCreatedAt(Timestamp createdAt) {
         this.createdAt = createdAt;
     }
+
 }
