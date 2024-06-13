@@ -40,7 +40,8 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/authenticate", "/api/users/register").permitAll()
+                .requestMatchers("/authenticate", "/api/users/register", "/api/categories", "/api/categories/{id}","/api/brands/{id}","/api/brands").permitAll() // Cho phép tất cả mọi người xem danh sách và chi tiết categories
+                .requestMatchers("/api/admin/**").hasRole("ADMIN") // Chỉ cho phép admin thêm, sửa, xóa
                 .anyRequest().authenticated()
                 .and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);

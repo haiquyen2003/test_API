@@ -1,9 +1,11 @@
 package com.example.eshoptestapi.controller;
 
 import com.example.eshoptestapi.entity.Brand;
+import com.example.eshoptestapi.entity.Categories;
 import com.example.eshoptestapi.repository.BrandRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,13 +18,13 @@ public class BrandController {
     @Autowired
     private BrandRepository brandRepository;
 
-    // GET all brands
+    // GET all brands (Cho phép tất cả mọi người xem)
     @GetMapping
     public List<Brand> getAllBrands() {
         return brandRepository.findAll();
     }
 
-    // GET brand by ID
+    // GET brand by ID (Cho phép tất cả mọi người xem)
     @GetMapping("/{id}")
     public ResponseEntity<Brand> getBrandById(@PathVariable Long id) {
         Optional<Brand> brand = brandRepository.findById(id);
@@ -33,13 +35,15 @@ public class BrandController {
         }
     }
 
-    // POST create new brand
+    // POST create new brand (Chỉ dành cho Admin)
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public Brand createBrand(@RequestBody Brand brand) {
         return brandRepository.save(brand);
     }
 
-    // PUT update existing brand
+    // PUT update existing brand (Chỉ dành cho Admin)
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<Brand> updateBrand(@PathVariable Long id, @RequestBody Brand brandDetails) {
         Optional<Brand> brandOptional = brandRepository.findById(id);
@@ -54,7 +58,8 @@ public class BrandController {
         }
     }
 
-    // DELETE brand by ID
+    // DELETE brand by ID (Chỉ dành cho Admin)
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteBrand(@PathVariable Long id) {
         if (brandRepository.existsById(id)) {
@@ -64,4 +69,5 @@ public class BrandController {
             return ResponseEntity.notFound().build();
         }
     }
+
 }
