@@ -10,7 +10,7 @@ public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long productID;
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "brand_id")
@@ -66,11 +66,11 @@ public class Product {
     // Getters and Setters
 
     public Long getProductID() {
-        return productID;
+        return id;
     }
 
     public void setProductID(Long productID) {
-        this.productID = productID;
+        this.id = id;
     }
 
     public Brand getBrand() {

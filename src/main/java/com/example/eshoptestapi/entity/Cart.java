@@ -17,16 +17,14 @@ public class Cart {
 
     @ManyToOne
     @JoinColumn(name = "product_id")
-    private Product product;
+    private Product productId;
 
     @Column(name = "quantity")
     private Integer quantity = 1;
 
     @Column(name = "created_at")
     private Timestamp createdAt;
-
     // Getters and Setters
-
     public Long getId() {
         return id;
     }
@@ -44,11 +42,11 @@ public class Cart {
     }
 
     public Product getProduct() {
-        return product;
+        return productId;
     }
 
     public void setProduct(Product product) {
-        this.product = product;
+        this.productId = product;
     }
 
     public Integer getQuantity() {
