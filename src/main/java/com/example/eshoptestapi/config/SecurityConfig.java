@@ -4,6 +4,7 @@ import com.example.eshoptestapi.security.JwtRequestFilter;
 import com.example.eshoptestapi.service.CustomUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -40,7 +41,23 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/authenticate", "/api/users/register").permitAll()
+                .requestMatchers("/authenticate", "/api/users/register", "/api/categories", "/api/categories/{id}").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/brands/**").permitAll()
+                .requestMatchers(HttpMethod.POST, "/api/brands").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.PUT, "/api/brands/**").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.DELETE, "/api/brands/**").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.POST, "/api/products").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.PUT, "/api/products/**").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.DELETE, "/api/products/**").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.POST, "/api/reviews").hasRole("CUSTOMER")
+                .requestMatchers(HttpMethod.PUT, "/api/reviews/**").hasRole("CUSTOMER")
+                .requestMatchers(HttpMethod.DELETE, "/api/reviews/**").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.POST,"/api/promotions").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.PUT,"/api/promotions/**").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.DELETE,"/api/promotions/**").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.GET, "/api/reviews/**").permitAll() // Allow everyone to view reviews
+                .requestMatchers("/api/products/**").permitAll()
+                .requestMatchers("/api/promotions/**").permitAll()
                 .anyRequest().authenticated()
                 .and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);

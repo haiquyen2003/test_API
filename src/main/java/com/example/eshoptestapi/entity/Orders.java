@@ -27,8 +27,10 @@ public class Orders {
 
     private String paymentMethod;
 
+    @Column(name ="status", columnDefinition ="VARCHAR(20) DEFAULT 'Processing'",nullable = false)
     private String status;
 
+    @Column(name = "tel", columnDefinition = "VARCHAR(10)", nullable = false)
     private String tel;
 
     @Column(columnDefinition = "TEXT")
