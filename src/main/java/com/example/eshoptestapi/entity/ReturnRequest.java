@@ -23,6 +23,9 @@ public class ReturnRequest {
     @ManyToOne
     @JoinColumn(name = "order_id")
     private Orders order;
+    @ManyToOne
+@JoinColumn(name = "product_id") 
+private Product product;
 
     // Getters and Setters
 
@@ -65,4 +68,13 @@ public class ReturnRequest {
     public void setOrder(Orders order) {
         this.order = order;
     }
+    
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+    
 }

@@ -24,8 +24,12 @@ public class Product {
     @JoinColumn(name = "promotion_id")
     private Promotion promotion;
 
+    @JoinColumn(name = "product_name")
+    private String productName;
+
     @Column(name = "description", columnDefinition = "TEXT")
     private String description;
+
 
     @Column(name = "discount_price", precision = 10, scale = 2)
     private BigDecimal discountPrice;
