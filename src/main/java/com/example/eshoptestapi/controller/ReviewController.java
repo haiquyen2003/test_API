@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @RestController
 @RequestMapping("/api/reviews")
@@ -29,6 +31,7 @@ public class ReviewController {
 
     @Autowired
     private UserService userService;
+    private static final Logger logger = LoggerFactory.getLogger(ReviewController.class);
 
     @GetMapping
     public ResponseEntity<List<Review>> getAllReviews() {
@@ -47,12 +50,16 @@ public class ReviewController {
     @PostMapping
     public ResponseEntity<Review> addReview(@RequestBody ReviewDTO reviewDTO, Authentication authentication) {
         String username = authentication.getName();
-        User user = userService.findByUsername(username);
+        logger.info("Attempting to add review by user: {}", username);
+
+        User user = userService.findByEmail(username);
         if (user == null) {
+            logger.error("User not found: {}", username);
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
         Optional<Product> productOpt = productService.getProductById(reviewDTO.getProductId());
         if (!productOpt.isPresent()) {
+            logger.error("Product not found with ID: {}", reviewDTO.getProductId());
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         Product product = productOpt.get();
@@ -68,6 +75,7 @@ public class ReviewController {
 
         // Lưu đối tượng Review vào cơ sở dữ liệu
         Review newReview = reviewService.addReview(review);
+        logger.info("Review added successfully for user: {}", username);
         return new ResponseEntity<>(newReview, HttpStatus.CREATED);
     }
 
@@ -79,7 +87,7 @@ public class ReviewController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         String username = authentication.getName();
-        User user = userService.findByUsername(username);
+        User user = userService.findByEmail(username);
         if (user == null) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
