@@ -1,41 +1,19 @@
-package com.example.eshoptestapi.entity;
+package com.example.eshoptestapi.dto.Orders;
 
-import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 
-@Entity
-@Table(name = "orders")
-public class Orders {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class OrdersDTO {
     private Long id;
-
-    @Column(columnDefinition = "TEXT")
     private String orderNumber;
-
-    @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private User user;
-
+    private Long userId;
     private BigDecimal subtotal;
-
     private BigDecimal totalAmount;
-
     private Integer totalQuantity;
-
     private String paymentMethod;
-
-    @Column(name ="status", columnDefinition ="VARCHAR(20) DEFAULT 'Processing'",nullable = false)
     private String status;
-
-    @Column(name = "tel", columnDefinition = "VARCHAR(10)", nullable = false)
     private String tel;
-
-    @Column(columnDefinition = "TEXT")
     private String address;
-
     private Timestamp createdAt;
 
     // Getters and Setters
@@ -56,12 +34,12 @@ public class Orders {
         this.orderNumber = orderNumber;
     }
 
-    public User getUser() {
-        return user;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public BigDecimal getSubtotal() {

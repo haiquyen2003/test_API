@@ -18,7 +18,20 @@ public class Brand {
     @Column(name = "status", length = 10, nullable = false)
     private String status;
 
+    @ManyToOne
+    @JoinColumn(name = "category_id", nullable = false)
+    private Categories category;
+
     // Getters and Setters
+
+    public Categories getCategory() {
+        return category;
+    }
+
+    public void setCategory(Categories category) {
+        this.category = category;
+    }
+
     public Long getId() {
         return id;
     }
